@@ -2,7 +2,7 @@ name: DEV - Tutorial BE Deploy
 
 on:
   repository_dispatch:
-    types: [natthasw-tutorial-be-cd-dev]
+    types: [natthasw-tutorial-backend-cd-dev]
   workflow_dispatch:
     inputs:
       ref:
