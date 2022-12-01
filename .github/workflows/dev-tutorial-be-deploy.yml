@@ -49,3 +49,36 @@ jobs:
       with:
         name: ${{ env.ARTIFACT_NAME }}
         path: '${{ github.workspace }}/Tutorial.Api/bin/Release/net6.0/${{ env.ARTIFACT_NAME }}.tar.gz'
+
+  deploy-app-service:
+    name: Deploy
+    runs-on: [ self-hosted, natthasw-sbx, vm-natthaswSelfHost-az-usw3-sbx-001 ]
+    needs: [build-app-service]
+    environment:
+      name: dev
+      url: https://dev-natthasw-web.azure101.ml/swagger/index.html
+
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
+    
+    - name: Extract Artifact
+      run : |
+        tar -zxf ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}/${{ env.ARTIFACT_NAME }}.tar.gz -C ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
+        rm ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}/${{ env.ARTIFACT_NAME }}.tar.gz
+    - name: Login via Azure CLI
+      run: |
+        az login --identity --username ${{ secrets.AZURE_SELFHOST_USER_MANAGE_IDENTITY_CLIENT_ID }}
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.APP_RESOURCE_NAME }}
+        package: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
+    
+    - name: Clear Cache
+      run: |
+        rm -rf ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}
