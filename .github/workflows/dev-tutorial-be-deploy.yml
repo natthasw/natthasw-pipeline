@@ -1,0 +1,51 @@
+name: DEV - Tutorial BE Deploy
+
+on:
+  repository_dispatch:
+    types: [natthasw-tutorial-be-cd-dev]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Repository branch or tag"
+        required: true
+        default: "develop"
+
+env:
+  REPOSITORY: "natthasw/natthasw-tutorial-backend"
+  GITREF: ${{ github.event_name == 'repository_dispatch' && 'develop' || github.event.inputs.ref }}
+  ARTIFACT_NAME: "artifact-tutorial-be-0.0.1-snapshot"
+  APP_RESOURCE_NAME: app-natthasw-az-usw3-dev-001
+
+jobs:
+  build-app-service:
+    name: Build
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    steps:
+    - name: "Checkout project"
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ env.REPOSITORY }}
+        ref: ${{ env.GITREF }}
+        token: ${{ secrets.WORKFLOW_TOKEN }}
+            
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v2.1.0
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Pack Artifact
+      run: cd Tutorial.Api/bin/Release/net6.0 && tar -zcvf ${{ env.ARTIFACT_NAME }}.tar.gz *
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: '${{ github.workspace }}/Tutorial.Api/bin/Release/net6.0/${{ env.ARTIFACT_NAME }}.tar.gz'
