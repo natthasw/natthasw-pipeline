@@ -17,7 +17,7 @@ env:
 jobs:
   deploy-app-service:
     name: Deploy
-    runs-on: [ self-hosted, tara-sbx, vm-natthaswSelfHost-az-usw3-sbx-001 ]
+    runs-on: [ self-hosted, natthasw-sbx, vm-natthaswSelfHost-az-usw3-sbx-001 ]
     environment:
       name: sit
       url: https://sit-natthasw-web.azure101.ml/swagger/index.html
