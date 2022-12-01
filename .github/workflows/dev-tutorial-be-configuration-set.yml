@@ -1,0 +1,39 @@
+name: DEV - Tutorial BE Configuration
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-configuration:
+    name: set appservice configuration
+    runs-on: [ self-hosted, natthasw-sbx, vm-natthaswSelfHost-az-usw3-sbx-001 ]
+    environment: dev
+    steps:
+    - name: Login via Azure CLI
+      run: |
+        az login --identity --username ${{ secrets.AZURE_SELFHOST_USER_MANAGE_IDENTITY_CLIENT_ID }}
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Set Web App Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        app-name: app-natthasw-az-usw3-dev-001
+        app-settings-json: |
+          [
+            {
+              "name": "TutorialDatabase__ConnectionString",
+              "value": "${{ secrets.TUTORIAL_DB_CONNECTION_STRING }}",
+              "slotSetting": false
+            },
+            {
+              "name": "TutorialDatabase__DatabaseName",
+              "value": "dev-tutorial",
+              "slotSetting": false
+            },
+            {
+              "name": "TutorialDatabase__TutorialCollectionName",
+              "value": "tutorials",
+              "slotSetting": false
+            }
+          ]
+          
