@@ -1,0 +1,59 @@
+name: SIT - Tutorial BE Deploy
+CLI
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Repository branch or tag"
+        required: true
+        default: "v1.0.0"
+
+env:
+  REPOSITORY: "natthasw/natthasw-tutorial-backend"
+  GITREF: ${{ github.event.inputs.ref }}
+  ARTIFACT_NAME: "artifact-tutorial-backend"
+  APP_RESOURCE_NAME: app-natthasw-az-usw3-sit-001
+
+jobs:
+  deploy-app-service:
+    name: Deploy
+    runs-on: [ self-hosted, tara-sbx, vm-natthaswSelfHost-az-usw3-sbx-001 ]
+    environment:
+      name: sit
+      url: https://sit-natthasw-web.azure101.ml/swagger/index.html
+    
+    steps:
+    - name: Download Artifact
+      uses: robinraju/release-downloader@v1.3
+      with:
+        repository: ${{ env.REPOSITORY }}
+        tag: ${{ env.GITREF }}
+        fileName: ${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}.tar.gz
+        token: ${{ secrets.WORKFLOW_TOKEN }}
+
+    - name: Extract Artifact
+      run : |
+        mkdir -p ${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
+        tar -zxf ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}.tar.gz -C ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
+        rm ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}.tar.gz
+    - name: Login via Azure CLI
+      run: |
+        az login --identity --username ${{ secrets.AZURE_SELFHOST_USER_MANAGE_IDENTITY_CLIENT_ID }}
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.APP_RESOURCE_NAME }}
+        package: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
+
+    - name: Clear Cache
+      run: |
+        rm -rf ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
+
+    - name: DAST (OWASP ZAP) Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.WORKFLOW_TOKEN }}
+        repository: ${{ env.REPOSITORY }}
+        event-type: natthasw-tutorial-be-dast-sit
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
