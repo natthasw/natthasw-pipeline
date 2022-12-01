@@ -1,5 +1,5 @@
 name: SIT - Tutorial BE Deploy
-CLI
+
 on:
   workflow_dispatch:
     inputs:
