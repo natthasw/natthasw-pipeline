@@ -71,7 +71,7 @@ jobs:
 
     # Preparing for Terraform to run
     - name: Generates SAS Token
-      run: cdc-terraform-utilities/github-action/get_sas_azurerm.sh
+      run: bash -x cdc-terraform-utilities/github-action/get_sas_azurerm.sh
 
      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
