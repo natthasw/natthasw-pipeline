@@ -10,5 +10,5 @@ terraform {
 
 provider "azurerm" {
   features {}
-  use_msi = true
+  # use_msi = true
 }
