@@ -5,19 +5,19 @@ if [ -z ${TF_WORKSPACE} ]; then
   echo "Error: cannot determine value of TF_WORKSPACE environment variable"; exit 99
 fi
 
-SUBSCRIPTION=`sed -n 's;^subscription_id \+= \+\"\(.*\)\";\1;p' ${TF_WORKSPACE}.azurerm.tfbackend`
+SUBSCRIPTION=`sed -n 's;^subscription_id \+= \+\"\(.*\)\";\1;p' env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend`
 if [ -z ${SUBSCRIPTION} ]; then
-  echo "Error: cannot determine value of subscription_id from ${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
+  echo "Error: cannot determine value of subscription_id from env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
 fi
 
-BACKEND_STORAGE_NAME=`sed -n 's;^storage_account_name \+= \+\"\(.*\)\";\1;p' ${TF_WORKSPACE}.azurerm.tfbackend`
+BACKEND_STORAGE_NAME=`sed -n 's;^storage_account_name \+= \+\"\(.*\)\";\1;p' env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend`
 if [ -z ${BACKEND_STORAGE_NAME} ]; then
-  echo "Error: cannot determine value of storage_account_name from ${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
+  echo "Error: cannot determine value of storage_account_name from env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
 fi
 
-BACKEND_STORAGE_CONTAINER=`sed -n 's;^container_name \+= \+\"\(.*\)\";\1;p' ${TF_WORKSPACE}.azurerm.tfbackend`
+BACKEND_STORAGE_CONTAINER=`sed -n 's;^container_name \+= \+\"\(.*\)\";\1;p' env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend`
 if [ -z ${BACKEND_STORAGE_CONTAINER} ]; then
-  echo "Error: cannot determine value of container_name from ${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
+  echo "Error: cannot determine value of container_name from env-${{ env.TF_WORKSPACE }}/${TF_WORKSPACE}.azurerm.tfbackend"; exit 99
 fi
 
 # Get SAS token
