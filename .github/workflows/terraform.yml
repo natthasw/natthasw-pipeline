@@ -50,7 +50,7 @@ jobs:
     # setup for terraform init module private repo
     - name: Setup GitHub ACCESS_TOKEN with global configuration
       run: |
-        git config --global url."https://tarathec:${{ secrets.REPO_ACCESS_TOKEN }}@github.com".insteadOf "https://github.com"
+        git config --global url."https://natthasw:${{ secrets.REPO_ACCESS_TOKEN }}@github.com".insteadOf "https://github.com"
     # Pull & update submodules recursively
     - name: Pull & update submodules recursively
       run: |
