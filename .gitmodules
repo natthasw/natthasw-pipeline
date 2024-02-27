@@ -1,0 +1,3 @@
+[submodule "cdc-terraform-utilities"]
+	path = cdc-terraform-utilities
+	url = https://github.com/corp-ais/cdc-terraform-utilities.git
