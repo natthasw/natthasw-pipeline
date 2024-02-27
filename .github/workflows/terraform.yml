@@ -17,6 +17,9 @@ on:
       #   required: false
       #   default: 'No, keep them forever.'
 
+permissions:
+  id-token: write
+
 jobs:
   terraform:
     name: 'Terraform env:dev'
