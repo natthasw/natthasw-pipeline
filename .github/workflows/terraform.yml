@@ -19,6 +19,8 @@ on:
 
 permissions:
   id-token: write
+  contents: write
+  pull-requests: write
 
 jobs:
   terraform:
@@ -63,6 +65,11 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    # Preparing for Terraform to run
+    - name: Generates SAS Token
+      run: cdc-terraform-utilities/github-action/get_sas_azurerm.sh
+
+     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: |
         terraform init -backend-config="env-${{ env.TF_WORKSPACE }}/${{ env.TF_WORKSPACE }}.azurerm.tfbackend"
