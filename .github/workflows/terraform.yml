@@ -57,7 +57,9 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Generates SAS Token
-      run: utilities/get_sas_azurerm.sh
+      run: |
+        chmod 777 utilities/get_sas_azurerm.sh
+        bash utilities/get_sas_azurerm.sh
 
     - name: Terraform Init
       run: |
