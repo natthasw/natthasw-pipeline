@@ -25,9 +25,9 @@ jobs:
     env:
       TF_WORKSPACE: dev
       TF_ARM_USE_MSI: true
-      TF_ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      TF_ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
-      TF_ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      TF_ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      TF_ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -49,9 +49,9 @@ jobs:
     - name: Log in with Azure
       uses: azure/login@v1
       with:
-        client-id: ${{ secrets.CLIENT_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     # - name: Generates SAS Token
     #   run: utilities/get_sas_azurerm.sh
