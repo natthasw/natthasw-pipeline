@@ -1,9 +1,21 @@
 name: Terraform
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'Please select terraform action [plan/apply/destroy] ! Warning all action with -auto-approve !'
+        required: true
+        default: plan
+        type: choice
+        options:
+        - plan
+        - apply
+        # - destroy
+      # destroy_confirmation:
+      #   description: 'Type "Yes, I want to destroy them all." to confirm destruction !'
+      #   required: false
+      #   default: 'No, keep them forever.'
 
 jobs:
   terraform:
@@ -33,6 +45,13 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+
+    - name: Log in with Azure
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
 
     # - name: Generates SAS Token
     #   run: utilities/get_sas_azurerm.sh
