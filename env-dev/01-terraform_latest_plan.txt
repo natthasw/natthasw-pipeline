@@ -1,0 +1,150 @@
+[command]/home/runner/work/_temp/0e085459-1756-4373-bca1-d29f5871454d/terraform-bin show -no-color plan.tmp
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_network_interface.example will be created
+  + resource "azurerm_network_interface" "example" {
+      + applied_dns_servers           = (known after apply)
+      + dns_servers                   = (known after apply)
+      + enable_accelerated_networking = false
+      + enable_ip_forwarding          = false
+      + id                            = (known after apply)
+      + internal_dns_name_label       = (known after apply)
+      + internal_domain_name_suffix   = (known after apply)
+      + location                      = "westus3"
+      + mac_address                   = (known after apply)
+      + name                          = "example-nic"
+      + private_ip_address            = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + resource_group_name           = "example-resources"
+      + virtual_machine_id            = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "internal"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # azurerm_network_interface_security_group_association.example will be created
+  + resource "azurerm_network_interface_security_group_association" "example" {
+      + id                        = (known after apply)
+      + network_interface_id      = (known after apply)
+      + network_security_group_id = (known after apply)
+    }
+
+  # azurerm_network_security_group.example will be created
+  + resource "azurerm_network_security_group" "example" {
+      + id                  = (known after apply)
+      + location            = "westus3"
+      + name                = "example-nsg"
+      + resource_group_name = "example-resources"
+      + security_rule       = (known after apply)
+    }
+
+  # azurerm_network_security_rule.example will be created
+  + resource "azurerm_network_security_rule" "example" {
+      + access                      = "Allow"
+      + destination_address_prefix  = "*"
+      + destination_port_range      = "22"
+      + direction                   = "Inbound"
+      + id                          = (known after apply)
+      + name                        = "SSH"
+      + network_security_group_name = "example-nsg"
+      + priority                    = 1001
+      + protocol                    = "Tcp"
+      + resource_group_name         = "example-resources"
+      + source_address_prefix       = "*"
+      + source_port_range           = "*"
+    }
+
+  # azurerm_resource_group.example will be created
+  + resource "azurerm_resource_group" "example" {
+      + id       = (known after apply)
+      + location = "westus3"
+      + name     = "example-resources"
+    }
+
+  # azurerm_subnet.example will be created
+  + resource "azurerm_subnet" "example" {
+      + address_prefixes                               = [
+          + "10.0.1.0/24",
+        ]
+      + enforce_private_link_endpoint_network_policies = (known after apply)
+      + enforce_private_link_service_network_policies  = (known after apply)
+      + id                                             = (known after apply)
+      + name                                           = "example-subnet"
+      + private_endpoint_network_policies_enabled      = (known after apply)
+      + private_link_service_network_policies_enabled  = (known after apply)
+      + resource_group_name                            = "example-resources"
+      + virtual_network_name                           = "example-network"
+    }
+
+  # azurerm_virtual_machine.example will be created
+  + resource "azurerm_virtual_machine" "example" {
+      + availability_set_id              = (known after apply)
+      + delete_data_disks_on_termination = false
+      + delete_os_disk_on_termination    = false
+      + id                               = (known after apply)
+      + license_type                     = (known after apply)
+      + location                         = "westus3"
+      + name                             = "example-vm"
+      + network_interface_ids            = (known after apply)
+      + resource_group_name              = "example-resources"
+      + vm_size                          = "Standard_B1s"
+
+      + os_profile {
+          # At least one attribute in this block is (or was) sensitive,
+          # so its contents will not be displayed.
+        }
+
+      + os_profile_linux_config {
+          + disable_password_authentication = false
+        }
+
+      + storage_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+
+      + storage_os_disk {
+          + caching                   = "ReadWrite"
+          + create_option             = "FromImage"
+          + disk_size_gb              = (known after apply)
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = "Standard_LRS"
+          + name                      = "osdisk-example"
+          + os_type                   = (known after apply)
+          + write_accelerator_enabled = false
+        }
+    }
+
+  # azurerm_virtual_network.example will be created
+  + resource "azurerm_virtual_network" "example" {
+      + address_space       = [
+          + "10.0.0.0/16",
+        ]
+      + dns_servers         = (known after apply)
+      + guid                = (known after apply)
+      + id                  = (known after apply)
+      + location            = "westus3"
+      + name                = "example-network"
+      + resource_group_name = "example-resources"
+      + subnet              = (known after apply)
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+::debug::Terraform exited with code 0.
+::debug::stdout: %0ATerraform used the selected providers to generate the following execution%0Aplan. Resource actions are indicated with the following symbols:%0A  + create%0A%0ATerraform will perform the following actions:%0A%0A  # azurerm_network_interface.example will be created%0A  + resource "azurerm_network_interface" "example" {%0A      + applied_dns_servers           = (known after apply)%0A      + dns_servers                   = (known after apply)%0A      + enable_accelerated_networking = false%0A      + enable_ip_forwarding          = false%0A      + id                            = (known after apply)%0A      + internal_dns_name_label       = (known after apply)%0A      + internal_domain_name_suffix   = (known after apply)%0A      + location                      = "westus3"%0A      + mac_address                   = (known after apply)%0A      + name                          = "example-nic"%0A      + private_ip_address            = (known after apply)%0A      + private_ip_addresses          = (known after apply)%0A      + resource_group_name           = "example-resources"%0A      + virtual_machine_id            = (known after apply)%0A%0A      + ip_configuration {%0A          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)%0A          + name                                               = "internal"%0A          + primary                                            = (known after apply)%0A          + private_ip_address                                 = (known after apply)%0A          + private_ip_address_allocation                      = "Dynamic"%0A          + private_ip_address_version                         = "IPv4"%0A          + subnet_id                                          = (known after apply)%0A        }%0A    }%0A%0A  # azurerm_network_interface_security_group_association.example will be created%0A  + resource "azurerm_network_interface_security_group_association" "example" {%0A      + id                        = (known after apply)%0A      + network_interface_id      = (known after apply)%0A      + network_security_group_id = (known after apply)%0A    }%0A%0A  # azurerm_network_security_group.example will be created%0A  + resource "azurerm_network_security_group" "example" {%0A      + id                  = (known after apply)%0A      + location            = "westus3"%0A      + name                = "example-nsg"%0A      + resource_group_name = "example-resources"%0A      + security_rule       = (known after apply)%0A    }%0A%0A  # azurerm_network_security_rule.example will be created%0A  + resource "azurerm_network_security_rule" "example" {%0A      + access                      = "Allow"%0A      + destination_address_prefix  = "*"%0A      + destination_port_range      = "22"%0A      + direction                   = "Inbound"%0A      + id                          = (known after apply)%0A      + name                        = "SSH"%0A      + network_security_group_name = "example-nsg"%0A      + priority                    = 1001%0A      + protocol                    = "Tcp"%0A      + resource_group_name         = "example-resources"%0A      + source_address_prefix       = "*"%0A      + source_port_range           = "*"%0A    }%0A%0A  # azurerm_resource_group.example will be created%0A  + resource "azurerm_resource_group" "example" {%0A      + id       = (known after apply)%0A      + location = "westus3"%0A      + name     = "example-resources"%0A    }%0A%0A  # azurerm_subnet.example will be created%0A  + resource "azurerm_subnet" "example" {%0A      + address_prefixes                               = [%0A          + "10.0.1.0/24",%0A        ]%0A      + enforce_private_link_endpoint_network_policies = (known after apply)%0A      + enforce_private_link_service_network_policies  = (known after apply)%0A      + id                                             = (known after apply)%0A      + name                                           = "example-subnet"%0A      + private_endpoint_network_policies_enabled      = (known after apply)%0A      + private_link_service_network_policies_enabled  = (known after apply)%0A      + resource_group_name                            = "example-resources"%0A      + virtual_network_name                           = "example-network"%0A    }%0A%0A  # azurerm_virtual_machine.example will be created%0A  + resource "azurerm_virtual_machine" "example" {%0A      + availability_set_id              = (known after apply)%0A      + delete_data_disks_on_termination = false%0A      + delete_os_disk_on_termination    = false%0A      + id                               = (known after apply)%0A      + license_type                     = (known after apply)%0A      + location                         = "westus3"%0A      + name                             = "example-vm"%0A      + network_interface_ids            = (known after apply)%0A      + resource_group_name              = "example-resources"%0A      + vm_size                          = "Standard_B1s"%0A%0A      + os_profile {%0A          # At least one attribute in this block is (or was) sensitive,%0A          # so its contents will not be displayed.%0A        }%0A%0A      + os_profile_linux_config {%0A          + disable_password_authentication = false%0A        }%0A%0A      + storage_image_reference {%0A          + offer     = "UbuntuServer"%0A          + publisher = "Canonical"%0A          + sku       = "18.04-LTS"%0A          + version   = "latest"%0A        }%0A%0A      + storage_os_disk {%0A          + caching                   = "ReadWrite"%0A          + create_option             = "FromImage"%0A          + disk_size_gb              = (known after apply)%0A          + managed_disk_id           = (known after apply)%0A          + managed_disk_type         = "Standard_LRS"%0A          + name                      = "osdisk-example"%0A          + os_type                   = (known after apply)%0A          + write_accelerator_enabled = false%0A        }%0A    }%0A%0A  # azurerm_virtual_network.example will be created%0A  + resource "azurerm_virtual_network" "example" {%0A      + address_space       = [%0A          + "10.0.0.0/16",%0A        ]%0A      + dns_servers         = (known after apply)%0A      + guid                = (known after apply)%0A      + id                  = (known after apply)%0A      + location            = "westus3"%0A      + name                = "example-network"%0A      + resource_group_name = "example-resources"%0A      + subnet              = (known after apply)%0A    }%0A%0APlan: 8 to add, 0 to change, 0 to destroy.%0A
+::debug::stderr: 
+::debug::exitcode: 0
